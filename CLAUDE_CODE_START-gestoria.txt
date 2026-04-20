@@ -1,0 +1,26 @@
+# CLAUDE_CODE_START — Gestoria Ramón Muntaner
+# Pega este bloque completo al inicio de cada sesión de Claude Code
+
+Read CLAUDE.md completely. Then read BUILD.md. Then read brand_assets/brand.md.
+Check brand_assets/ for logos or photos.
+Check .env.local for Supabase credentials.
+
+Tell me:
+1. Design dials (VARIANCE/MOTION/DENSITY) and aesthetic direction
+2. Which sections are dynamic: true and their Supabase table
+3. Confirm you understand the dynamic fetch pattern from CLAUDE.md
+
+This is Next.js 14 App Router + Tailwind CSS. Never static HTML.
+
+Dynamic sections use this exact pattern:
+  export const revalidate = 60
+  const { data } = await supabase.from('TABLE').select('*')
+    .eq('client_id', process.env.NEXT_PUBLIC_CLIENT_ID)
+    .eq('visible', true).order('sort_order', { ascending: true })
+  if (!data || data.length === 0) return null
+
+Start with: npx create-next-app@latest . --typescript --tailwind --eslint --app
+Then: npm install @supabase/supabase-js
+Then: tailwind.config.js + fonts + CSS variables from brand.md
+
+Client UUID: 53291a33-cfb3-4187-834d-339dadacd8be
