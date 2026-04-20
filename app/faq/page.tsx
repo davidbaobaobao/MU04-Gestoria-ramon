@@ -25,7 +25,17 @@ type Faq = { id: string; question: string; answer: string; category: string }
 export default async function FaqPage() {
   const faqs = await getFaqs()
 
-  if (!faqs || faqs.length === 0) return null
+  if (!faqs || faqs.length === 0) {
+    return (
+      <>
+        <Nav />
+        <main className="pt-16 min-h-screen flex items-center justify-center">
+          <p className="text-[#8A96A3] text-sm">Próximamente — estamos preparando las preguntas frecuentes.</p>
+        </main>
+        <Footer />
+      </>
+    )
+  }
 
   const categories = Array.from(new Set((faqs as Faq[]).map((f) => f.category)))
 

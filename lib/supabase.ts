@@ -10,20 +10,29 @@ export function getSupabase(): SupabaseClient | null {
   return _client
 }
 
-// Convenience alias used in server components
+// No-op chain: resolves to { data: null, error: null } when awaited.
+// The proxy must handle `then` explicitly — otherwise `get: () => () => chain`
+// would intercept it and make await hang forever.
+function makeNoop(): unknown {
+  const chain = new Proxy({} as Record<string | symbol, unknown>, {
+    get(_t, prop) {
+      if (prop === 'then') {
+        return (
+          resolve: (v: { data: null; error: null }) => void,
+          _reject: unknown,
+        ) => Promise.resolve({ data: null, error: null }).then(resolve)
+      }
+      // Every other method call (select, eq, order, …) returns the same chain
+      return () => chain
+    },
+  })
+  return chain
+}
+
 export const supabase = {
-  from: (table: string) => {
+  from: (table: string): ReturnType<SupabaseClient['from']> => {
     const client = getSupabase()
-    if (!client) {
-      // Return a chainable no-op that resolves to empty data
-      const noop: Record<string, unknown> = {}
-      const chain = new Proxy(noop, {
-        get: () => () => chain,
-      })
-      ;(chain as { then: unknown }).then = (resolve: (v: { data: null }) => void) =>
-        Promise.resolve(resolve({ data: null }))
-      return chain as unknown as ReturnType<SupabaseClient['from']>
-    }
+    if (!client) return makeNoop() as unknown as ReturnType<SupabaseClient['from']>
     return client.from(table)
   },
 }
