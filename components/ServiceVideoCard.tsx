@@ -13,17 +13,14 @@ export default function ServiceVideoCard({ title, desc, video }: Props) {
 
   return (
     <div
-      className="group rounded-xl overflow-hidden border border-[#E8ECF0] hover:border-[#52B788] transition-all duration-300"
-      style={{ boxShadow: 'var(--shadow-card)' }}
+      className="group glass-card rounded-2xl overflow-hidden hover:shadow-lg hover:shadow-[#2D6A4F]/10 transition-all duration-300 hover:-translate-y-1"
       onMouseEnter={() => videoRef.current?.play()}
       onMouseLeave={() => {
-        if (videoRef.current) {
-          videoRef.current.pause()
-          videoRef.current.currentTime = 0
-        }
+        const v = videoRef.current
+        if (v) { v.pause(); v.currentTime = 0 }
       }}
     >
-      <div className="relative h-44 overflow-hidden bg-[#1A1F2E]">
+      <div className="relative h-44 overflow-hidden bg-[#0f1420] rounded-t-2xl">
         <video
           ref={videoRef}
           src={video}
@@ -32,8 +29,9 @@ export default function ServiceVideoCard({ title, desc, video }: Props) {
           playsInline
           preload="metadata"
           autoPlay
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
       <div className="p-5">
         <h3 className="text-base font-semibold text-[#1A1F2E] mb-2">{title}</h3>

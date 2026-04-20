@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Brand Colors */
   --color-primary:      #2D6A4F;
   --color-primary-dark: #1B4332;
   --color-primary-mid:  #52B788;
@@ -11,8 +10,6 @@
   --color-mist:         #8A96A3;
   --color-cloud:        #E8ECF0;
   --color-off-white:    #F7F8FA;
-
-  /* Fonts */
   --font-display: var(--font-jakarta), sans-serif;
   --font-body:    var(--font-inter), sans-serif;
 }
@@ -21,15 +18,19 @@
   --shadow-card:  0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
   --shadow-hover: 0 4px 20px rgba(45,106,79,0.12);
   --shadow-cta:   0 2px 8px rgba(45,106,79,0.25);
+
+  /* Glass tokens */
+  --glass-dark:   rgba(15, 20, 30, 0.45);
+  --glass-light:  rgba(255, 255, 255, 0.12);
+  --glass-border-dark:  rgba(255, 255, 255, 0.14);
+  --glass-border-light: rgba(255, 255, 255, 0.50);
+  --glass-green:  rgba(45, 106, 79, 0.18);
+  --glass-green-border: rgba(82, 183, 136, 0.35);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: #ffffff;
@@ -42,3 +43,52 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-jakarta), sans-serif;
   color: #1A1F2E;
 }
+
+/* ── Glass utilities ── */
+
+/* Dark glass — for nav, hero buttons on dark background */
+.glass-dark {
+  background: var(--glass-dark);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid var(--glass-border-dark);
+}
+
+/* Light glass — for cards on light sections */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.80);
+}
+
+/* Green-tinted glass — primary CTA on dark backgrounds */
+.glass-btn-primary {
+  background: rgba(45, 106, 79, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(82, 183, 136, 0.50);
+}
+
+/* Ghost glass — secondary/outline buttons */
+.glass-btn-ghost {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+}
+
+/* Fade-in animation for sections */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+.fade-in-up-delay-1 { animation-delay: 0.1s; }
+.fade-in-up-delay-2 { animation-delay: 0.2s; }
+.fade-in-up-delay-3 { animation-delay: 0.3s; }
+.fade-in-up-delay-4 { animation-delay: 0.4s; }
